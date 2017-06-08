@@ -1,0 +1,135 @@
+10
+
+dir
+919
+svn://sulaco.slac.stanford.edu/LUXSim
+svn://sulaco.slac.stanford.edu/LUXSim
+
+
+
+2015-12-02T23:58:01.167167Z
+919
+jxu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+64de8dfa-c6a0-4926-b5e4-bbd7e4d7e455
+
+LUXSim
+dir
+
+generator
+dir
+
+LUXSimMacros
+dir
+
+GNUmakefile
+file
+
+
+
+
+2015-12-29T20:17:16.403544Z
+0a0e3af88d5c761de00c1348e2e79054
+2015-12-02T23:58:01.167167Z
+919
+jxu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1619
+
+scripts
+dir
+
+geometry
+dir
+
+tools
+dir
+
+Images
+dir
+
+io
+dir
+
+LUXSimConfig
+dir
+
+README.txt
+file
+
+
+
+
+2015-12-29T20:17:16.403544Z
+cbdc8751a694390328c2739f5536fe87
+2015-07-29T23:45:54.196767Z
+890
+dtiedt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1383
+
+processing
+dir
+
+management
+dir
+
+LUXSimDescriptionPaper
+dir
+
+physicslist
+dir
+

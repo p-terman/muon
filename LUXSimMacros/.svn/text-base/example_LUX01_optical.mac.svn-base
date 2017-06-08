@@ -1,0 +1,21 @@
+/tracking/verbose 0
+
+/LUXSim/detector/select 0_1Detector
+/LUXSim/detector/gridWires on
+
+#	Update geometry
+/LUXSim/detector/update
+
+/LUXSim/detector/recordLevelOptPhot PMT_Vacuum_1 1
+/LUXSim/detector/recordLevelOptPhot PMT_Vacuum_2 1
+/LUXSim/detector/recordLevelOptPhot PMT_Vacuum_3 1
+/LUXSim/detector/recordLevelOptPhot PMT_Vacuum_4 1
+
+/gps/position 0 0 -2.5 cm
+/gps/ang/type iso
+
+/gps/particle opticalphoton
+/gps/energy 7 eV
+
+/LUXSim/beamOn 1000
+
