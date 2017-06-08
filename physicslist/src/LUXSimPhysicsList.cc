@@ -55,12 +55,15 @@
 #include "G4ProcessTable.hh"
 #include "G4ParticleTypes.hh"
 #include "G4ParticleTable.hh"
+#include "G4MonopolePhysics.hh"
 
 #include "G4PhysListFactory.hh"
 
 #include "G4EmExtraPhysics.hh"
 #include "G4RadioactiveDecayPhysics.hh"
 #include "G4EmLivermorePhysics.hh"
+
+#include "G4UImanager.hh"
 
 //
 // Particles
@@ -69,6 +72,7 @@
 #include "G4Electron.hh"
 #include "G4Positron.hh"
 
+#include "G4Monopole.hh" //PAT added
 //
 //	LUXSim includes
 //
@@ -111,7 +115,9 @@ LUXSimPhysicsList::LUXSimPhysicsList() : G4VModularPhysicsList()
 	G4EmExtraPhysics *extraPhys = new G4EmExtraPhysics();
 	G4EmLivermorePhysics *lowEPhys = new G4EmLivermorePhysics();
 	LUXSimPhysicsOpticalPhysics *optPhys = new LUXSimPhysicsOpticalPhysics();
-	
+	G4MonopolePhysics * theMonopole = new G4MonopolePhysics();
+  
+
 	G4cout << "RegisterPhysics: " << radPhys->GetPhysicsName() << G4endl;
 	RegisterPhysics( radPhys );
 	G4cout << "RegisterPhysics: " << extraPhys->GetPhysicsName() << G4endl;
@@ -120,6 +126,14 @@ LUXSimPhysicsList::LUXSimPhysicsList() : G4VModularPhysicsList()
 	RegisterPhysics( lowEPhys );
 	G4cout << "RegisterPhysics: " << optPhys->GetPhysicsName() << G4endl;
 	RegisterPhysics( optPhys );
+	G4cout << "RegisterPhysics: " << theMonopole->GetPhysicsName() << G4endl;
+	RegisterPhysics(theMonopole);
+
+	  //get the pointer to the User Interface manager
+	  G4UImanager* UImanager = G4UImanager::GetUIpointer();
+
+	  // Setup monopole
+	  UImanager->ApplyCommand("/monopole/setup");
 
 	G4PhysListFactory factory;
 //	G4VModularPhysicsList *phys = factory.GetReferencePhysList( "QGSP_BERT_HP");
@@ -156,6 +170,7 @@ void LUXSimPhysicsList::SetCuts()
 	SetCutValue( cutForProton, "proton" );
 	SetCutValue( cutForAlpha, "alpha" );
 	SetCutValue( cutForGenericIon, "GenericIon" );
+	SetCutValue( cutForMonopole, "Monopole" ); //PAT added
 
 	G4int nParticles = 5;
 	DumpCutValuesTable( nParticles );
@@ -169,6 +184,7 @@ void LUXSimPhysicsList::SetCutsLong()
 	cutForGamma = longCutValue;
 	cutForElectron = longCutValue;
 	cutForPositron = longCutValue;
+	cutForMonopole = longCutValue; //PAT added
 
 	SetCuts();
 }
@@ -181,6 +197,7 @@ void LUXSimPhysicsList::SetCutsShort()
 	cutForGamma = shortCutValue;
 	cutForElectron = shortCutValue;
 	cutForPositron = shortCutValue;
+	cutForMonopole = shortCutValue; //PAT added
 
 	SetCuts();
 }

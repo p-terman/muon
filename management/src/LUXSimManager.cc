@@ -222,6 +222,8 @@
 #include "LUXSimLZFlex.hh"
 #include "G4S1Light.hh"
 
+#include "G4MonopoleFieldMessenger.hh" 
+
 using namespace std;
 using namespace CLHEP;
 

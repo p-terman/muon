@@ -1,0 +1,42 @@
+################################################################################
+# example macro for the NMDetector package
+#
+# Change log:
+# 18 May 2010 - Initial submission (Melinda)
+################################################################################
+
+
+
+/tracking/verbose 0
+
+/LUXSim/detector/select NMDetector 
+/LUXSim/detector/update  
+
+#/vis/open OGLIX
+#/vis/drawVolume
+
+#/vis/scene/add/trajectories
+#/tracking/storeTrajectory 1
+#/vis/scene/endOfEventAction accumulate
+#/tracking/storeTrajectory 1
+#/vis/viewer/set/viewpointVector 1 0 0
+#/vis/viewer/set/upVector 0 0 1
+#/vis/viewer/zoom 10
+
+/gps/particle mu-
+/gps/direction 0 0 -1
+/gps/pos/type Plane
+/gps/pos/shape Square
+/gps/pos/centre 0 0 70 cm
+/gps/pos/halfx 150 cm
+/gps/pos/halfy 150 cm
+/gps/pos/halfz 1 cm
+/gps/energy 500 MeV
+
+#/LUXSim/source/set Source SingleDecay_60_27 10 Bq
+
+#/LUXSim/detector/recordLevelOptPhot South_PMT 3
+#/LUXSim/detector/recordLevelOptPhot North_PMT 3
+
+
+/LUXSim/beamOn 1
