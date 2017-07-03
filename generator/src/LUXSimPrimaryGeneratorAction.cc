@@ -52,8 +52,6 @@ void LUXSimPrimaryGeneratorAction::GeneratePrimaries( G4Event *event )
 {
 	//	Have the management class determine which event is next and generate
 	//	that event
-	
- 
 	if( luxManager->GetTotalSimulationActivity() )
 		luxManager->GenerateEvent( particleGun, event );
 	else {

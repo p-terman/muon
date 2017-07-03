@@ -40,6 +40,7 @@
 #include "G4UIterminal.hh"
 #include "G4UItcsh.hh"
 #include "G4Version.hh"
+#include "G4MonopolePhysics.hh"
 
 #ifdef G4VIS_USE
 #include "G4VisExecutive.hh"
@@ -63,6 +64,35 @@
 #include "LUXSimOutput.hh"
 #include "LUXSimSourceCatalog.hh"
 #include "LUXSimManager.hh"
+
+#include <fstream>
+#include <sstream>
+G4String GetCommandValue(const char * macro_name, std::string cmd_name){
+  ifstream infile(macro_name);
+  if(!infile.is_open()){
+    G4cerr<<macro_name<<" can not be opened."<<G4endl;
+    return G4String("");
+  }
+
+  G4String val("");
+  std::string line;
+  size_t space = 0, content = 0;
+  while(!infile.eof()){
+    getline(infile, line);
+    if(line.length()<2) continue;
+    content=line.find_first_not_of(" \t");
+    if(content==string::npos) continue;
+    if(line[content]=='#') continue; //we ignore the case there is another # later in the line
+    content=line.find(cmd_name, content);
+    if(content==string::npos) continue;
+    content=line.find_first_not_of(" \t", content+cmd_name.length());
+    if(content==string::npos) continue;
+    val.assign(line.substr(content));
+    break;
+  }//endwhile()
+  infile.close();
+  return val;
+}
 
 //------++++++------++++++------++++++------++++++------++++++------++++++------
 //					main()
@@ -160,8 +190,33 @@ int main( int argc, char **argv )
 	LUXSimMaterials *LUXMaterials = new LUXSimMaterials();
 	
 	LUXSimPhysicsList *LUXSimPhysics = new LUXSimPhysicsList();
+	G4MonopolePhysics * theMonopole = new G4MonopolePhysics(); 	
+	//	G4cout<<"G4MonopolePhysics constructed."<<G4endl;
+ 	//we can only update monople setup if there is a macro
+ 	if(argc>1){
+ 	  G4String monople_setup = GetCommandValue(argv[1], "/monopole/setup");
+ 	  if(monople_setup.length()){
+ 	    G4double q, m;
+ 	    G4double mass;
+ 	    G4String unts;
+ 	    std::istringstream is(monople_setup);
+ 	    is >> m >> q >> mass >> unts;
+ 	    G4String unit = unts;
+ 	    G4double vUnit = G4UIcommand::ValueOf(unit);
+ 	    theMonopole->SetMagneticCharge(m);
+ 	    theMonopole->SetElectricCharge(q);
+ 	    theMonopole->SetMonopoleMass(mass*vUnit);
+ 	    G4cout<<"*** Set Monopole charges (m, q, mass): "<<monople_setup<<G4endl;
+ 	  }
+  	LUXSimPhysics->RegisterPhysics(theMonopole);
+ 	//	G4cout<<"G4MonopolePhysics registered."<<G4endl;
+ 	}
+ 	else{
+ 	  G4cerr<<"/monopole/setup command not found in"<<argv[1]<<G4endl;
+ 	}	
 	runManager->SetUserInitialization( LUXSimPhysics );
-
+	G4cout<<"Run Manager has set the physics initialization."<<G4endl;
+  
 	LUXSimDetectorConstruction *LUXSimDetector =
 			new LUXSimDetectorConstruction();
 	runManager->SetUserInitialization( LUXSimDetector );
@@ -198,7 +253,7 @@ int main( int argc, char **argv )
 #endif
 
 	// Initialize G4 kernel
-	runManager->Initialize();
+	//runManager->Initialize();
 	
 	//	Get the user interface manager
 	G4UImanager *UI = G4UImanager::GetUIpointer();

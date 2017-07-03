@@ -23,8 +23,8 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: G4MonopolePhysics.cc,v 1.6 2010-11-29 15:14:17 vnivanch Exp $
-// GEANT4 tag $Name: not supported by cvs2svn $
+// $Id: G4MonopolePhysics.cc,v 1.5 2010/06/04 19:03:36 vnivanch Exp $
+// GEANT4 tag $Name:  $
 //
 //---------------------------------------------------------------------------
 //
@@ -53,20 +53,36 @@
 #include "G4MonopoleTransportation.hh"
 #include "G4hMultipleScattering.hh"
 #include "G4mplIonisation.hh"
-#include "G4mplIonisationWithDeltaModel.hh"
+//#include "G4mplIonisationWithDeltaModel.hh"
+#include "G4mplIonisationModel.hh"
 #include "G4hhIonisation.hh"
 #include "G4hIonisation.hh"
+#include "G4ionIonisation.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 G4MonopolePhysics::G4MonopolePhysics(const G4String& nam)
   : G4VPhysicsConstructor(nam)
 {
-  magCharge = 1.0;
-  //  magCharge = -1.0;
-  //  elCharge  = -50.0;
-  elCharge  = 0.0;
-  monopoleMass = 100.*GeV;
+  //  magCharge = 1.0;
+  magCharge = 0.0;
+  //  elCharge  = 10.0;  // neon
+  //  elCharge  = 0.6666;
+  elCharge  = 0.025;
+  //  elCharge  = 1.0;
+  //  elCharge  = 26.0;   // iron
+  //  elCharge  = 2.0;     // alpha
+  //  elCharge  = 57.0;    //  La
+  //  elCharge  = 79.0;    //  Au
+  //  elCharge  = 0.0;
+  //  monopoleMass = 0.105*GeV;
+  monopoleMass = 1*GeV;
+  //  monopoleMass = 1.0*0.938*GeV;
+  //  monopoleMass = 20.0*0.938*GeV;     // neon
+  //  monopoleMass = 56.0*0.938*GeV;   // iron
+  //  monopoleMass = 4.0*0.938*GeV;    // alpha
+  //  monopoleMass = 139.0*0.938*GeV;   //  La
+  //  monopoleMass = 197.0*0.938*GeV;   //  Au
   theMessenger = new G4MonopolePhysicsMessenger(this);
 }
 
@@ -115,9 +131,11 @@ void G4MonopolePhysics::ConstructProcess()
     //pmanager->AddProcess(hmsc,  -1, idx, idx);
     //++idx;
     G4hIonisation* hhioni = new G4hIonisation();
-    hhioni->SetDEDXBinning(nbin);
-    hhioni->SetMinKinEnergy(emin);
-    hhioni->SetMaxKinEnergy(emax);
+    //    G4hhIonisation* hhioni = new G4hhIonisation();
+    //    G4ionIonisation* hhioni = new G4ionIonisation();
+//     hhioni->SetDEDXBinning(nbin);
+//     hhioni->SetMinKinEnergy(emin);
+//     hhioni->SetMaxKinEnergy(emax);
     pmanager->AddProcess(hhioni,  -1, idx, idx);
     ++idx;
   }
@@ -126,8 +144,10 @@ void G4MonopolePhysics::ConstructProcess()
     mplioni->SetDEDXBinning(nbin);
     mplioni->SetMinKinEnergy(emin);
     mplioni->SetMaxKinEnergy(emax);
-    G4mplIonisationWithDeltaModel* mod = 
-      new G4mplIonisationWithDeltaModel(magn,"PAI");
+//     G4mplIonisationWithDeltaModel* mod = 
+//       new G4mplIonisationWithDeltaModel(magn,"PAI");
+    G4mplIonisationModel* mod = 
+      new G4mplIonisationModel(magn,"PAI");
     mplioni->AddEmModel(0,mod,mod);
     pmanager->AddProcess(mplioni, -1, idx, idx);
     ++idx;

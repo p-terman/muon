@@ -23,8 +23,8 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: G4MonopolePhysicsMessenger.hh,v 1.2 2010-11-29 15:14:17 vnivanch Exp $
-// GEANT4 tag $Name: not supported by cvs2svn $
+// $Id: G4MonopolePhysicsMessenger.hh,v 1.1 2009/07/15 10:20:07 vnivanch Exp $
+// GEANT4 tag $Name: geant4-09-03-ref-01 $
 //
 //  12.07.10  S.Burdin (changed the magnetic and electric charge variables from integer to double)
 //
